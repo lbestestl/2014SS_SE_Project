@@ -1,0 +1,41 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+#Makefile
+Makefile
+makefile
+gnuMakefile
+
+#Database
+*.sqlite
+*.db
+
+#Image
+*.jpeg
+*.gif
+*.png
+
+#Sound
+*.wav
+*.mp3
+
+#Qt files
+*.pro.user
+
+#Binary files
+*.exe
+*.run
+
+#Backup files
+*.*~
