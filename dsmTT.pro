@@ -13,10 +13,12 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    mainWindow.cpp
+    mainWindow.cpp \
+    dsmModel.cpp
 
 HEADERS  += \
-    mainWindow.h
+    mainWindow.h \
+    dsmModel.h
 
 FORMS    += \
     mainWindow.ui

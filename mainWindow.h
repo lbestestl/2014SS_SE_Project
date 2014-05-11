@@ -1,11 +1,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+
 #include <QMainWindow>
+
 
 namespace Ui {
 class mainWindow;
 }
+
 
 class mainWindow : public QMainWindow
 {
@@ -39,6 +42,10 @@ private slots:
     void moveDown();
     void addEntity();
     void deleteEntity();
+    //void sort();
+    //void rename();
+    //void partition();
 };
+
 
 #endif // MAINWINDOW_H
