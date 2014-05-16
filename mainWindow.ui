@@ -297,7 +297,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QTreeWidget" name="treeWidget">
+         <widget class="QTreeView" name="treeView">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -325,75 +325,9 @@
           <attribute name="headerVisible">
            <bool>false</bool>
           </attribute>
-          <column>
-           <property name="text">
-            <string>root</string>
-           </property>
-          </column>
-          <item>
-           <property name="text">
-            <string>K</string>
-           </property>
-           <property name="flags">
-            <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>B</string>
-           </property>
-           <property name="flags">
-            <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-           </property>
-           <item>
-            <property name="text">
-             <string>G</string>
-            </property>
-            <property name="flags">
-             <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>E</string>
-            </property>
-            <property name="flags">
-             <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-            </property>
-            <item>
-             <property name="text">
-              <string>F</string>
-             </property>
-             <property name="flags">
-              <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-             </property>
-            </item>
-           </item>
-           <item>
-            <property name="text">
-             <string>D</string>
-            </property>
-            <property name="flags">
-             <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>C</string>
-            </property>
-            <property name="flags">
-             <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-            </property>
-           </item>
-          </item>
-          <item>
-           <property name="text">
-            <string>A</string>
-           </property>
-           <property name="flags">
-            <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-           </property>
-          </item>
+          <attribute name="headerDefaultSectionSize">
+           <number>0</number>
+          </attribute>
          </widget>
         </item>
        </layout>
@@ -533,15 +467,24 @@
    <property name="text">
     <string>New Clustering</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+N</string>
+   </property>
   </action>
   <action name="actionOpen_Clustering">
    <property name="text">
     <string>Open Clustering</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+O</string>
+   </property>
   </action>
   <action name="actionSave_Clustering">
    <property name="text">
     <string>Save Clustering</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
    </property>
   </action>
   <action name="actionSave_as_Clustering">
@@ -587,7 +530,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>treeWidget</tabstop>
+  <tabstop>treeView</tabstop>
   <tabstop>tableView</tabstop>
   <tabstop>expandBtn</tabstop>
   <tabstop>collapseBtn</tabstop>
@@ -744,7 +687,7 @@
    <sender>actionExit</sender>
    <signal>triggered()</signal>
    <receiver>mainWindow</receiver>
-   <slot>exitProgram()</slot>
+   <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>

@@ -3,6 +3,7 @@
 
 
 #include <QMainWindow>
+#include <QCloseEvent>
 
 
 namespace Ui {
@@ -18,6 +19,9 @@ public:
     explicit mainWindow(QWidget *parent = 0);
     ~mainWindow();
     
+protected:
+    void closeEvent(QCloseEvent*);
+
 private:
     Ui::mainWindow *ui;
 
@@ -30,7 +34,6 @@ private slots:
     void openClustering();
     void saveClustering();
     void saveAsClustering();
-    void exitProgram();
     void redraw();
     void showRowLabels();
     void about();
