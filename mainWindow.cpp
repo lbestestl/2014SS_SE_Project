@@ -148,6 +148,57 @@ void mainWindow::openClustering()
 }
 
 
+void search(QFile* fout, QStandardItem* cur, int n)
+{
+//    for (int i = 0; i < cur->rowCount(); i++) {
+//        QString result ="\n";
+//        if (cur->hasChildren()) {
+//            //group
+//            result += "<group name=\"";
+//            result += cur->text();
+//            result += "\">";
+//            fout->write(result.toLocal8Bit());
+//            search(fout, cur->child());
+////            search(fout, cur->child(n+1, 0), );
+//        } else {
+//            //item
+//            result += "<item name=\"";
+//            result += cur->text();
+//            result += "\" />";
+//            fout->write(result.toLocal8Bit());
+//            search(fout, cur->brother());
+////            QStandardItem* par = (static_cast<QStandardItem*>(cur->parent()));
+////            if (par->child(n+1, 0) != NULL)
+//////                search(fout, par->child(n+1, 0), n+1);
+//        }
+//        cur = static_cast<QStandardItem*>(cur->parent());
+//  }
+    QStandardItem* par = static_cast<QStandardItem*>(cur->parent());
+
+    for (int i = 0; i < n; i++) {
+        QString result ="\n";
+        if (cur->hasChildren()) {
+            result += "<group name=\"";
+            result += cur->text();
+            result += "\">";
+            fout->write(result.toLocal8Bit());
+            search(fout, cur->child(0, 0), cur->rowCount());
+            result = "\n</group>";
+            fout->write(result.toLocal8Bit());
+        } else {
+            result += "<item name=\"";
+            result += cur->text();
+            result += "\" />";
+            fout->write(result.toLocal8Bit());
+        }
+        if (i < n-1)
+            cur = par->child(i+1, 0);
+    }
+    cur = par;
+}
+
+QModelIndex* temptest;
+
 void mainWindow::saveClustering()
 {
     QString fileName2 = QFileDialog::getOpenFileName(this, tr("Open Clustering"), "" , tr("Cluster files (*.clsx);;All files (*.*)"));
@@ -180,29 +231,23 @@ void mainWindow::saveClustering()
     ui->treeView->setModel(clm);
 
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save Clustering"), tr("out.clsx"), tr("Cluster files (*.clsx)"));
-    QFile fout(fileName);
-    if (!fout.open(QIODevice::WriteOnly | QIODevice::Text))
+    QFile* fout = new QFile(fileName);
+    if (!fout->open(QIODevice::WriteOnly | QIODevice::Text))
         return;
     QString result = "<cluster>";
-    fout.write(result.toLocal8Bit());
-    QStandardItem* cur = clm->invisibleRootItem()->child(0, 0);
-    int i = 0;
-    while (i < 10) {
-        result = "\n";
-        if (cur->hasChildren()) {
-            result += "<group name=\"";
-            result += cur->text();
-            result += "\">";
-            cur = cur->child(0, 0);
-        } else {
-            result += "<item name=\"";
-            result += cur->text();
-            result += "\" />";
-        }
-        fout.write(result.toLocal8Bit());
-        i++;
-    }
-    fout.close();
+    fout->write(result.toLocal8Bit());
+    QStandardItem* cur = clm->invisibleRootItem();
+    search(fout, cur->child(0,0), cur->rowCount());
+    result = "\n</cluster>";
+    fout->write(result.toLocal8Bit());
+    fout->close();
+    delete fout;
+    //model index expand test
+//    QModelIndex* in = new QModelIndex(0, 0, clm->invisibleRootItem(), (*clm));
+    temptest = new QModelIndex(clm->index(0, 0, clm->indexFromItem(cur)));
+    QModelIndex in2 = clm->index(0, 0, clm->indexFromItem(cur));
+    qDebug()<<in2;
+
 }
 
 
@@ -213,7 +258,10 @@ void mainWindow::saveAsClustering()
 
 void mainWindow::redraw()
 {
-
+    if (ui->treeView->isExpanded(*temptest))
+        qDebug()<<"Yes";
+    else
+        qDebug()<<"No";
 }
 
 
