@@ -1,6 +1,7 @@
 #include "mainWindow.h"
 #include "ui_mainWindow.h"
 #include "dsmModel.h"
+#include "clusterModel.h"
 
 #include <QTranslator>
 #include <QSplitter>
@@ -8,6 +9,12 @@
 #include <QFileDialog>
 #include <QList>
 #include <QDebug>
+
+
+//this variables will be replaced by globalInst class
+DsmModel* dsm;
+ClusterModel* clm;
+QModelIndex* temptest;
 
 
 mainWindow::mainWindow(QWidget *parent) :
@@ -26,7 +33,7 @@ mainWindow::~mainWindow()
 
 void mainWindow::newDSM()
 {
-    DsmModel* dsm = new DsmModel(1);
+    dsm = new DsmModel(1);
     ui->tableView->setModel(dsm);
 }
 
@@ -37,27 +44,14 @@ void mainWindow::openDSM()
     QFile fin(fileName);
     if (!fin.open(QIODevice::ReadOnly | QIODevice::Text))
          return;
-// 여기부터는 dsmModel에서 처리
+
     QString a = fin.readLine();
     int num = a.toInt();
-
-    DsmModel* dsm = new DsmModel(num);
-
-    for (int i = 0; i < num; i++) {
-        a = fin.readLine();
-        for (int j = 0; j < num; j++) {
-            QStandardItem* item = new QStandardItem(a.mid(j*2, 1));
-            dsm->setItem(i, j, item);
-        }
-    }
-    for (int i = 0; i < num; i++) {
-        a = fin.readLine();
-        QStandardItem* item = new QStandardItem(a);
-        dsm->setVerticalHeaderItem(i, item);
-    }
-    //
-    ui->tableView->setModel(dsm);
     fin.close();
+
+    dsm = new DsmModel(num);
+    dsm->load(fileName);
+    ui->tableView->setModel(dsm);
 }
 
 
@@ -67,40 +61,7 @@ void mainWindow::saveDSM()
     QFile fout(fileName);
     if (!fout.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
-//여기부터는 dsmModel에서 처리
-    DsmModel* dsm = new DsmModel(3);
-    dsm->setRowCount(3);
-    dsm->setColumnCount(3);
-    for (int i = 0; i < 3; i++) {
-        QStandardItem* item1 = new QStandardItem("2");
-        dsm->setItem(i, 0, item1);
-        QStandardItem* item2 = new QStandardItem("0");
-        dsm->setItem(i, 1, item2);
-        QStandardItem* item3 = new QStandardItem("1");
-        dsm->setItem(i, 2, item3);
-        QStandardItem* item = new QStandardItem("a");
-        dsm->setVerticalHeaderItem(i, item);
-    }
-    ui->tableView->setModel(dsm);
-
-    QString result = QString::number(dsm->rowCount());
-    fout.write(result.toLocal8Bit());
-    for (int i = 0; i < dsm->rowCount(); i++) {
-        result = "\n";
-        for (int j = 0; j < dsm->columnCount(); j++) {
-            result += dsm->item(i, j)->text();
-            if (j < dsm->rowCount()-1)
-                result += " ";
-        }
-        fout.write(result.toLocal8Bit());
-    }
-    for (int i = 0; i < dsm->rowCount(); i++) {
-        result = "\n";
-        result += dsm->verticalHeaderItem(i)->text();
-        fout.write(result.toLocal8Bit());
-    }
-    //
-    fout.close();
+    dsm->store(fileName);
 }
 
 
@@ -117,137 +78,22 @@ void mainWindow::newClustering()
 void mainWindow::openClustering()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Clustering"), "" , tr("Cluster files (*.clsx);;All files (*.*)"));
-    QFile fin(fileName);
-    if (!fin.open(QIODevice::ReadOnly | QIODevice::Text))
-         return;
-// 여기부터는 clusterModel에서 처리
-//    qDebug()<<fin.readLine();
-    if (fin.readLine() != "<cluster>\n")
-        return;
-    QStandardItemModel* clm = new QStandardItemModel();
-    QStandardItem* root = clm->invisibleRootItem();
-    QStandardItem* cur = root;
-    QStandardItem* item;
-    while (!fin.atEnd()) {
-        QString a = fin.readLine();
-        if (a.left(13)=="<group name=\"") {
-            item = new QStandardItem(a.mid(13, a.size()-16));
-            cur->appendRow(item);
-            cur = item;
-        } else if (a.left(12) == "<item name=\"") {
-            item = new QStandardItem(a.mid(12, a.size()-17));
-            cur->appendRow(item);
-        } else if (a == "</group>\n") {
-            cur = static_cast<QStandardItem*>(cur->parent());
-        } else if (a == "</cluster>\n") {
-            ;
-        }
-    }
+    clm = new ClusterModel();
+    clm->load(fileName);
     ui->treeView->setModel(clm);
-    fin.close();
 }
 
-
-void search(QFile* fout, QStandardItem* cur, int n)
-{
-//    for (int i = 0; i < cur->rowCount(); i++) {
-//        QString result ="\n";
-//        if (cur->hasChildren()) {
-//            //group
-//            result += "<group name=\"";
-//            result += cur->text();
-//            result += "\">";
-//            fout->write(result.toLocal8Bit());
-//            search(fout, cur->child());
-////            search(fout, cur->child(n+1, 0), );
-//        } else {
-//            //item
-//            result += "<item name=\"";
-//            result += cur->text();
-//            result += "\" />";
-//            fout->write(result.toLocal8Bit());
-//            search(fout, cur->brother());
-////            QStandardItem* par = (static_cast<QStandardItem*>(cur->parent()));
-////            if (par->child(n+1, 0) != NULL)
-//////                search(fout, par->child(n+1, 0), n+1);
-//        }
-//        cur = static_cast<QStandardItem*>(cur->parent());
-//  }
-    QStandardItem* par = static_cast<QStandardItem*>(cur->parent());
-
-    for (int i = 0; i < n; i++) {
-        QString result ="\n";
-        if (cur->hasChildren()) {
-            result += "<group name=\"";
-            result += cur->text();
-            result += "\">";
-            fout->write(result.toLocal8Bit());
-            search(fout, cur->child(0, 0), cur->rowCount());
-            result = "\n</group>";
-            fout->write(result.toLocal8Bit());
-        } else {
-            result += "<item name=\"";
-            result += cur->text();
-            result += "\" />";
-            fout->write(result.toLocal8Bit());
-        }
-        if (i < n-1)
-            cur = par->child(i+1, 0);
-    }
-    cur = par;
-}
-
-QModelIndex* temptest;
 
 void mainWindow::saveClustering()
 {
-    QString fileName2 = QFileDialog::getOpenFileName(this, tr("Open Clustering"), "" , tr("Cluster files (*.clsx);;All files (*.*)"));
-    QFile fin(fileName2);
-    if (!fin.open(QIODevice::ReadOnly | QIODevice::Text))
-         return;
-// 여기부터는 clusterModel에서 처리
-//    qDebug()<<fin.readLine();
-    if (fin.readLine() != "<cluster>\n")
-        return;
-    QStandardItemModel* clm = new QStandardItemModel();
-    QStandardItem* root = clm->invisibleRootItem();
-    QStandardItem* cur2 = root;
-    QStandardItem* item;
-    while (!fin.atEnd()) {
-        QString a = fin.readLine();
-        if (a.left(13)=="<group name=\"") {
-            item = new QStandardItem(a.mid(13, a.size()-16));
-            cur2->appendRow(item);
-            cur2 = item;
-        } else if (a.left(12) == "<item name=\"") {
-            item = new QStandardItem(a.mid(12, a.size()-17));
-            cur2->appendRow(item);
-        } else if (a == "</group>\n") {
-            cur2 = static_cast<QStandardItem*>(cur2->parent());
-        } else if (a == "</cluster>\n") {
-            ;
-        }
-    }
-    ui->treeView->setModel(clm);
-
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Clustering"), tr("out.clsx"), tr("Cluster files (*.clsx)"));
-    QFile* fout = new QFile(fileName);
-    if (!fout->open(QIODevice::WriteOnly | QIODevice::Text))
-        return;
-    QString result = "<cluster>";
-    fout->write(result.toLocal8Bit());
-    QStandardItem* cur = clm->invisibleRootItem();
-    search(fout, cur->child(0,0), cur->rowCount());
-    result = "\n</cluster>";
-    fout->write(result.toLocal8Bit());
-    fout->close();
-    delete fout;
-    //model index expand test
-//    QModelIndex* in = new QModelIndex(0, 0, clm->invisibleRootItem(), (*clm));
+/*
+    QModelIndex* in = new QModelIndex(0, 0, clm->invisibleRootItem(), (*clm));
     temptest = new QModelIndex(clm->index(0, 0, clm->indexFromItem(cur)));
     QModelIndex in2 = clm->index(0, 0, clm->indexFromItem(cur));
     qDebug()<<in2;
-
+*/
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Clustering"), tr("out.clsx"), tr("Cluster files (*.clsx)"));
+    clm->store(fileName);
 }
 
 

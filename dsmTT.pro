@@ -14,11 +14,15 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     mainWindow.cpp \
-    dsmModel.cpp
+    dsmModel.cpp \
+    clusterModel.cpp \
+    globalInst.cpp
 
 HEADERS  += \
     mainWindow.h \
-    dsmModel.h
+    dsmModel.h \
+    clusterModel.h \
+    globalInst.h
 
 FORMS    += \
     mainWindow.ui

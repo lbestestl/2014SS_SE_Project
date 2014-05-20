@@ -1,5 +1,5 @@
-#ifndef DSMMANAGE_H
-#define DSMMANAGE_H
+#ifndef DSMMODEL_H
+#define DSMMODEL_H
 
 
 #include <QStandardItemModel>
@@ -13,9 +13,9 @@ class DsmModel
 public:
     explicit DsmModel(int numOfData = 0);
     ~DsmModel();
-    void store();
-    void load();
+    void store(QString fileName);
+    void load(QString fileName);
 };
 
 
-#endif // DSMANAGE_H
+#endif // DSMMODEL_H
