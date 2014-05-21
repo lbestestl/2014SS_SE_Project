@@ -9,12 +9,26 @@
 class GlobalInst
 {
 public:
-    GlobalInst();
-private:
+    static GlobalInst* getInstance()
+    {
+        if (inst == NULL)
+            inst = new GlobalInst();
+        return inst;
+    }
     ClusterModel* clm;
-    DsmModel* dsm;
-    bool isModified;
-    //this class will be singleton.
+    DsmModel* oriDsm;
+    DsmModel* curDsm;
+    bool dsmExist;
+    bool dsmModified;
+    bool clmModified;
+    QString dsmPath;
+    QString clmPath;
+
+private:
+    GlobalInst();
+    ~GlobalInst();
+    static GlobalInst* inst;
 };
+
 
 #endif // GLOBALINST_H

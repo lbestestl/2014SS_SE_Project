@@ -45,9 +45,9 @@ private slots:
     void moveDown();
     void addEntity();
     void deleteEntity();
-    //void sort();
-    //void rename();
-    //void partition();
+    void sort();
+    void rename();
+    void partition();
 };
 
 

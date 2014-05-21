@@ -14,6 +14,7 @@ class ClusterModel
 public:
     explicit ClusterModel();
     ~ClusterModel();
+    void deleteAll();
     void store(QString fileName);
     void load(QString fileName);
 

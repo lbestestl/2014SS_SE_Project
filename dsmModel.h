@@ -13,6 +13,7 @@ class DsmModel
 public:
     explicit DsmModel(int numOfData = 0);
     ~DsmModel();
+    void deleteAll();
     void store(QString fileName);
     void load(QString fileName);
 };

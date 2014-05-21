@@ -70,3 +70,16 @@ void DsmModel::load(QString fileName)
     fin->close();
     delete fin;
 }
+
+
+void DsmModel::deleteAll()
+{
+    for (int i = 0; i < this->rowCount(); i++) {
+        for (int j = 0; j < this->rowCount(); j++) {
+            delete this->takeItem(i, j);
+        }
+    }
+    for (int i = 0; i < this->rowCount(); i++) {
+        delete this->takeVerticalHeaderItem(i);
+    }
+}
