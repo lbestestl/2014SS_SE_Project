@@ -272,7 +272,6 @@ void mainWindow::closeEvent(QCloseEvent* event)
 void mainWindow::sort()
 {
     ui->treeView->sortByColumn(0, Qt::AscendingOrder);
-    ui->treeView->setSortingEnabled(true);
 }
 
 
