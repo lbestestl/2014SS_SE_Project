@@ -16,6 +16,8 @@ public:
     void deleteAll();
     void store(QString fileName);
     void load(QString fileName);
+    void appendEntity();
+    void deleteEntitiy();
 };
 
 

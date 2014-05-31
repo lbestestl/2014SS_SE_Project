@@ -2,7 +2,8 @@
 #define CLUSTERMODEL_H
 
 
-#include <QStandardItemModel>
+#include "dsmModel.h"
+#include <QItemSelectionModel>
 #include <QFile>
 
 
@@ -17,9 +18,17 @@ public:
     void deleteAll();
     void store(QString fileName);
     void load(QString fileName);
+    void load(DsmModel*);
+
+    void group(QItemSelectionModel*);
+    void ungroup(QItemSelectionModel*);
+    void moveUp(QItemSelectionModel*);
+    void moveDown(QItemSelectionModel*);
+    void appendEntity(int n = 0);
 
 private:
-    void search(QFile* fout, QStandardItem* cur, int n);
+    void internalStore(QFile*, QStandardItem* , int rowCount);
+    void internalDelete(QStandardItem*);
 };
 
 

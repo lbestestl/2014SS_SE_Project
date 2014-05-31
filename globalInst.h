@@ -9,7 +9,7 @@
 class GlobalInst
 {
 public:
-    static GlobalInst* getInstance()
+    static inline GlobalInst* getInstance()
     {
         if (inst == NULL)
             inst = new GlobalInst();

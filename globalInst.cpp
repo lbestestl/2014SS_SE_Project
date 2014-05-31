@@ -18,6 +18,7 @@ GlobalInst::~GlobalInst()
 }
 
 
+//dsm model의 자원을 해제하고 global변수를 조정
 void clearDsm()
 {
     if (GlobalInst::getInstance()->dsmExist) {
@@ -34,6 +35,7 @@ void clearDsm()
 }
 
 
+//cluster model의 자원을 해제하고 global변수를 조정
 void clearClm()
 {
     if (GlobalInst::getInstance()->clm != NULL) {

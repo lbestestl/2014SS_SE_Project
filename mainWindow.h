@@ -24,6 +24,8 @@ protected:
     void closeEvent(QCloseEvent*);
 
 private:
+    bool confirmSaveDsm();
+    bool confirmSaveClm();
     Ui::mainWindow *ui;
 
 private slots:
@@ -48,7 +50,6 @@ private slots:
     void deleteEntity();
     void sort();
     void partition();
-    void treeViewClicked(QModelIndex);
 };
 
 

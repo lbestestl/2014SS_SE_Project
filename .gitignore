@@ -39,3 +39,5 @@ gnuMakefile
 
 #Backup files
 *.*~
+*.cpp.*
+*.h.*

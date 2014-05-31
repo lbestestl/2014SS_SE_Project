@@ -84,3 +84,26 @@ void DsmModel::deleteAll()
     }
     this->clear();
 }
+
+
+void DsmModel::appendEntity()
+{
+    int n = this->rowCount();
+
+    QList<QStandardItem*> row;
+    for (int i = 0; i < this->rowCount(); i++) {
+        QStandardItem* item = new QStandardItem("0");
+        row.append(item);
+    }
+    this->insertRow(n, row);
+
+    QList<QStandardItem*> col;
+    for (int i = 0 ; i < this->rowCount(); i++) {
+        QStandardItem* item = new QStandardItem("0");
+        col.append(item);
+    }
+    this->insertColumn(n, col);
+
+    QStandardItem *item = new QStandardItem(QString::number(n+1));
+    this->setVerticalHeaderItem(n, item);
+}
