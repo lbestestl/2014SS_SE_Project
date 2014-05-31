@@ -20,8 +20,8 @@ public:
     DsmModel* curDsm;
     bool dsmExist;
     bool dsmModified;
-    bool clmModified;
     QString dsmPath;
+    bool clmModified;
     QString clmPath;
 
 private:
@@ -29,6 +29,10 @@ private:
     ~GlobalInst();
     static GlobalInst* inst;
 };
+
+
+void clearDsm();
+void clearClm();
 
 
 #endif // GLOBALINST_H

@@ -4,6 +4,7 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <QModelIndex>
 
 
 namespace Ui {
@@ -35,7 +36,7 @@ private slots:
     void saveClustering();
     void saveAsClustering();
     void redraw();
-    void showRowLabels();
+    void showRowLabels(bool);
     void about();
     void expandAll();
     void collapseAll();
@@ -46,8 +47,8 @@ private slots:
     void addEntity();
     void deleteEntity();
     void sort();
-    void rename();
     void partition();
+    void treeViewClicked(QModelIndex);
 };
 
 

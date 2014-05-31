@@ -63,8 +63,8 @@ void ClusterModel::load(QString fileName)
 
     if (fin->readLine() != "<cluster>\n")
         return;
-    QStandardItem* root = this->invisibleRootItem();
-    QStandardItem* cur = root;
+
+    QStandardItem* cur = this->invisibleRootItem();
     QStandardItem* item;
     while (!fin->atEnd()) {
         QString a = fin->readLine();
@@ -74,6 +74,7 @@ void ClusterModel::load(QString fileName)
             cur = item;
         } else if (a.left(12) == "<item name=\"") {
             item = new QStandardItem(a.mid(12, a.size()-17));
+            item->setEditable(false);
             cur->appendRow(item);
         } else if (a == "</group>\n") {
             cur = static_cast<QStandardItem*>(cur->parent());
@@ -85,4 +86,12 @@ void ClusterModel::load(QString fileName)
     }
     fin->close();
     delete fin;
+}
+
+
+void ClusterModel::deleteAll()
+{
+//    QStandardItem* cur = this->invisibleRootItem();
+//    cur->hasChildren()
+    this->clear();
 }

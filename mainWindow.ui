@@ -332,14 +332,20 @@
             <height>0</height>
            </size>
           </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
+          </property>
           <property name="dragEnabled">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="dragDropMode">
-           <enum>QAbstractItemView::InternalMove</enum>
+           <enum>QAbstractItemView::NoDragDrop</enum>
           </property>
           <property name="selectionMode">
            <enum>QAbstractItemView::ExtendedSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
           </property>
           <attribute name="headerVisible">
            <bool>false</bool>
@@ -879,9 +885,9 @@
   </connection>
   <connection>
    <sender>actionShow_row_labels</sender>
-   <signal>triggered()</signal>
+   <signal>triggered(bool)</signal>
    <receiver>mainWindow</receiver>
-   <slot>showRowLabels()</slot>
+   <slot>showRowLabels(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -890,22 +896,6 @@
     <hint type="destinationlabel">
      <x>399</x>
      <y>299</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionPartition</sender>
-   <signal>triggered()</signal>
-   <receiver>mainWindow</receiver>
-   <slot>saveAsClustering()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>299</x>
-     <y>199</y>
     </hint>
    </hints>
   </connection>
@@ -953,7 +943,7 @@
   <slot>saveAsClustering()</slot>
   <slot>exitProgram()</slot>
   <slot>redraw()</slot>
-  <slot>showRowLabels()</slot>
+  <slot>showRowLabels(bool)</slot>
   <slot>about()</slot>
   <slot>expandAll()</slot>
   <slot>collapseAll()</slot>

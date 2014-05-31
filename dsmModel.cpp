@@ -82,4 +82,5 @@ void DsmModel::deleteAll()
     for (int i = 0; i < this->rowCount(); i++) {
         delete this->takeVerticalHeaderItem(i);
     }
+    this->clear();
 }
