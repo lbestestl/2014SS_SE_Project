@@ -154,6 +154,16 @@ void mainWindow::saveAsClustering()
 
 void mainWindow::redraw()
 {
+    GlobalInst::getInstance()->curDsm->deleteAll();
+    delete GlobalInst::getInstance()->curDsm;
+    if (!GlobalInst::getInstance()->clm->invisibleRootItem()->hasChildren())
+        return;
+    QStandardItem* cur = GlobalInst::getInstance()->clm->invisibleRootItem()->child(0);
+    if (ui->treeView->isExpanded(cur->index()))
+        qDebug() << "Yes";
+    else
+        qDebug() << "NO";
+
 }
 
 
@@ -250,9 +260,10 @@ void mainWindow::deleteEntity()
 {
     if (!GlobalInst::getInstance()->dsmExist)
         return;
-    GlobalInst::getInstance()->dsmModified = true;
-    ui->treeView->selectionModel()->parent();
 
+    GlobalInst::getInstance()->oriDsm->deleteEntity(ui->treeView->selectionModel());
+    GlobalInst::getInstance()->curDsm->deleteEntity(ui->treeView->selectionModel());
+    GlobalInst::getInstance()->clm->deleteEntity(ui->treeView->selectionModel());
     GlobalInst::getInstance()->dsmModified = true;
     GlobalInst::getInstance()->clmModified = true;
 }

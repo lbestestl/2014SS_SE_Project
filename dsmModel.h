@@ -2,6 +2,7 @@
 #define DSMMODEL_H
 
 
+#include <QItemSelectionModel>
 #include <QStandardItemModel>
 
 
@@ -17,7 +18,7 @@ public:
     void store(QString fileName);
     void load(QString fileName);
     void appendEntity();
-    void deleteEntitiy();
+    void deleteEntity(QItemSelectionModel*);
 };
 
 

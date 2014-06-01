@@ -15,6 +15,7 @@ public:
             inst = new GlobalInst();
         return inst;
     }
+
     ClusterModel* clm;
     DsmModel* oriDsm;
     DsmModel* curDsm;

@@ -25,6 +25,7 @@ public:
     void moveUp(QItemSelectionModel*);
     void moveDown(QItemSelectionModel*);
     void appendEntity(int n = 0);
+    void deleteEntity(QItemSelectionModel*);
 
 private:
     void internalStore(QFile*, QStandardItem* , int rowCount);

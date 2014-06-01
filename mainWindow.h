@@ -4,7 +4,6 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
-#include <QModelIndex>
 
 
 namespace Ui {

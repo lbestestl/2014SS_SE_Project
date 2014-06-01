@@ -225,3 +225,20 @@ void ClusterModel::appendEntity(int n)
     }
     this->invisibleRootItem()->child(0)->appendRow(item);
 }
+
+
+void ClusterModel::deleteEntity(QItemSelectionModel* sm)
+{
+    int count = sm->selectedIndexes().count();
+    for (int i = 0; i < count; i++) {
+        QStandardItem* cur = this->itemFromIndex(sm->selectedIndexes().at(count-1-i));
+        int r = cur->row();
+        QStandardItem* par = static_cast<QStandardItem*>(cur->parent());
+        if (cur->hasChildren())
+            continue;
+        if (par == NULL)
+            continue;
+        par->takeRow(r);
+        delete cur;
+    }
+}

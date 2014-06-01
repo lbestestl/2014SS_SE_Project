@@ -1,18 +1,17 @@
 #include "dsmModel.h"
-
+#include <QDebug>
 #include <QFile>
 
 
 DsmModel::DsmModel(int num)
     : QStandardItemModel(num, num)
 {
-//    dsmModel = new QStandardItemModel(num, num);
 }
 
 
 DsmModel::~DsmModel()
 {
-//    delete dsmModel;
+
 }
 
 
@@ -106,4 +105,30 @@ void DsmModel::appendEntity()
 
     QStandardItem *item = new QStandardItem(QString::number(n+1));
     this->setVerticalHeaderItem(n, item);
+}
+
+
+void DsmModel::deleteEntity(QItemSelectionModel* sm)
+{
+    for (int j = 0; j < sm->selectedIndexes().count(); j++) {
+        int num = -1;
+        for (int i = 0; i < this->rowCount(); i++) {
+            if (this->verticalHeaderItem(i)->text() == sm->selectedIndexes().at(j).data().toString())
+                num = i;
+        }
+        if (num == -1)
+            continue;
+
+        for (int i = 0; i < this->columnCount(); i++) {
+            delete this->takeItem(num, i);
+        }
+        delete this->takeVerticalHeaderItem(num);
+        for (int i = 0; i < this->rowCount(); i++) {
+            if (i != num)
+                delete this->takeItem(i, num);
+        }
+        delete this->takeHorizontalHeaderItem(num);
+        this->takeRow(num);
+        this->takeColumn(num);
+    }
 }
