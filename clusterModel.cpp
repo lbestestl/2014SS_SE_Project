@@ -1,5 +1,5 @@
 #include "clusterModel.h"
-#include <QDebug>
+
 
 ClusterModel::ClusterModel()
     : QStandardItemModel()
@@ -137,6 +137,11 @@ void ClusterModel::group(QItemSelectionModel *sm)
     QStandardItem* par = static_cast<QStandardItem*>(cur->parent());
     if (par == NULL)
         return;
+    quintptr ptr = sm->selectedIndexes().first().internalId();
+    for (int i = 0; i < sm->selectedIndexes().count(); i++) {
+        if (ptr != sm->selectedIndexes().at(i).internalId())
+            return;
+    }
     cur = new QStandardItem("group");
     cur->setEditable(true);
     par->insertRow(sm->selectedIndexes().first().row(), cur);
