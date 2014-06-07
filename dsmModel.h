@@ -2,12 +2,11 @@
 #define DSMMODEL_H
 
 
-#include <QItemSelectionModel>
-#include <QStandardItemModel>
+#include "projectModel.h"
 
 
 class DsmModel
-    : public QStandardItemModel
+    : public ProjectModel
 {
     Q_OBJECT
 

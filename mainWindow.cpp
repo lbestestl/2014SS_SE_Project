@@ -29,14 +29,15 @@ void mainWindow::newDSM()
         return;
     clearDsm();
 
-    GlobalInst::getInstance()->oriDsm = new DsmModel(0);
-    GlobalInst::getInstance()->curDsm = new DsmModel(0);
+    GlobalInst::getInstance()->oriDsm = new DsmModel();
+    GlobalInst::getInstance()->curDsm = new DsmModel();
 
     ui->tableView->setModel(GlobalInst::getInstance()->curDsm);
     GlobalInst::getInstance()->dsmExist = true;
     GlobalInst::getInstance()->dsmModified = true;
     newClustering();
     addEntity();
+    redraw();
 }
 
 
@@ -57,13 +58,13 @@ void mainWindow::openDSM()
 
     GlobalInst::getInstance()->oriDsm = new DsmModel(num);
     GlobalInst::getInstance()->oriDsm->load(fileName);
-    GlobalInst::getInstance()->curDsm = new DsmModel(num);
-    GlobalInst::getInstance()->curDsm->load(fileName);
+    GlobalInst::getInstance()->curDsm = new DsmModel();
 
     ui->tableView->setModel(GlobalInst::getInstance()->curDsm);
     GlobalInst::getInstance()->dsmExist = true;
 
     newClustering();
+    redraw();
 }
 
 
@@ -154,67 +155,6 @@ void mainWindow::saveAsClustering()
 
 void mainWindow::search(QStandardItem* cur)
 {
-/*    if (cur == NULL)
-        return;
-    if (ui->treeView->isExpanded(cur->index())) {
-        int count = cur->rowCount();
-        for (int i = 0; i < count; i++)
-            search(cur->child(i));
-    } else {
-        int rowCount = GlobalInst::getInstance()->curDsm->rowCount();
-        int on = GlobalInst::getInstance()->oriDsm->findVerticalHeaderItem(cur->text());
-
-        if (on == -1) {
-            if (!cur->hasChildren())
-                return;
-            if (rowCount == 0) {
-                QStandardItem* item = new QStandardItem("0");
-                GlobalInst::getInstance()->curDsm->insertRow(0, item);
-            } else {
-            QList<QStandardItem*> row;
-            for (int i = 0; i < rowCount; i++) {
-                QString text = "0";
-                QStandardItem* item = new QStandardItem(text);
-                row.append(item);
-            }
-            GlobalInst::getInstance()->curDsm->insertRow(rowCount, row);
-            QList<QStandardItem*> col;
-            for (int i = 0; i < rowCount; i++) {
-                QString text = "0";
-                QStandardItem* item = new QStandardItem(text);
-                col.append(item);
-            }
-            QStandardItem* item = new QStandardItem("0");
-            col.append(item);
-            GlobalInst::getInstance()->curDsm->insertColumn(rowCount, col);
-            }
-        } else if (rowCount == 0) {
-            QStandardItem* item = new QStandardItem("0");
-            GlobalInst::getInstance()->curDsm->insertRow(0, item);
-        } else {
-            QList<QStandardItem*> row;
-            for (int i = 0; i < rowCount; i++) {
-                int cn = GlobalInst::getInstance()->oriDsm->findVerticalHeaderItem(GlobalInst::getInstance()->curDsm->verticalHeaderItem(i)->text());
-                QString text = GlobalInst::getInstance()->oriDsm->item(on, cn)->text();
-                QStandardItem* item = new QStandardItem(text);
-                row.append(item);
-            }
-            GlobalInst::getInstance()->curDsm->insertRow(rowCount, row);
-            QList<QStandardItem*> col;
-            for (int i = 0; i < rowCount; i++) {
-                int rn = GlobalInst::getInstance()->oriDsm->findVerticalHeaderItem(GlobalInst::getInstance()->curDsm->verticalHeaderItem(i)->text());
-                QString text = GlobalInst::getInstance()->oriDsm->item(rn, on)->text();
-                QStandardItem* item = new QStandardItem(text);
-                col.append(item);
-            }
-            QStandardItem* item = new QStandardItem("0");
-            col.append(item);
-            GlobalInst::getInstance()->curDsm->insertColumn(rowCount, col);
-        }
-
-        QStandardItem *item = new QStandardItem(cur->text());
-        GlobalInst::getInstance()->curDsm->setVerticalHeaderItem(rowCount, item);
-    }*/
     if (cur == NULL)
             return;
     if (ui->treeView->isExpanded(cur->index())) {

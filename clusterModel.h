@@ -2,13 +2,14 @@
 #define CLUSTERMODEL_H
 
 
-#include "dsmModel.h"
+#include "projectModel.h"
+
 #include <QItemSelectionModel>
 #include <QFile>
 
 
 class ClusterModel
-    : public QStandardItemModel
+    : public ProjectModel
 {
     Q_OBJECT
 
@@ -18,7 +19,7 @@ public:
     void deleteAll();
     void store(QString fileName);
     void load(QString fileName);
-    void load(DsmModel*);
+    void load(ProjectModel *);
 
     void group(QItemSelectionModel*);
     void ungroup(QItemSelectionModel*);

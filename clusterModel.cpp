@@ -2,7 +2,7 @@
 
 
 ClusterModel::ClusterModel()
-    : QStandardItemModel()
+    : ProjectModel()
 {
 }
 
@@ -95,7 +95,7 @@ void ClusterModel::load(QString fileName)
 
 
 //DsmModel로 부터 clusterModel 생성
-void ClusterModel::load(DsmModel *model)
+void ClusterModel::load(ProjectModel *model)
 {
     QStandardItem* cur = this->invisibleRootItem();
     QStandardItem* item = new QStandardItem("$root");

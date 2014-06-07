@@ -16,13 +16,15 @@ SOURCES += main.cpp \
     mainWindow.cpp \
     dsmModel.cpp \
     clusterModel.cpp \
-    globalInst.cpp
+    globalInst.cpp \
+    projectModel.cpp
 
 HEADERS  += \
     mainWindow.h \
     dsmModel.h \
     clusterModel.h \
-    globalInst.h
+    globalInst.h \
+    projectModel.h
 
 FORMS    += \
     mainWindow.ui

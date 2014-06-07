@@ -4,7 +4,7 @@
 
 
 DsmModel::DsmModel(int num)
-    : QStandardItemModel(num, num)
+    : ProjectModel(num)
 {
 }
 
