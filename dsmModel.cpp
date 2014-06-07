@@ -85,6 +85,25 @@ void DsmModel::deleteAll()
 }
 
 
+//void DsmModel::group(QItemSelectionModel*)
+//{
+//}
+
+
+//void DsmModel::ungroup(QItemSelectionModel*)
+//{
+//}
+
+//void DsmModel::moveUp(QItemSelectionModel*)
+//{
+//}
+
+
+//void DsmModel::moveDown(QItemSelectionModel*)
+//{
+//}
+
+
 void DsmModel::appendEntity()
 {
     int n = this->rowCount();
@@ -131,4 +150,13 @@ void DsmModel::deleteEntity(QItemSelectionModel* sm)
         this->takeRow(num);
         this->takeColumn(num);
     }
+}
+
+
+int DsmModel::findVerticalHeaderItem(QString text)
+{
+    for (int i = 0; i < this->rowCount(); i++)
+        if (text == this->verticalHeaderItem(i)->text())
+            return i;
+    return -1;
 }

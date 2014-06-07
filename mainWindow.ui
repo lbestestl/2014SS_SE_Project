@@ -60,7 +60,7 @@
              <string>Add</string>
             </property>
             <property name="text">
-             <string>A</string>
+             <string>+</string>
             </property>
            </widget>
           </item>
@@ -91,7 +91,11 @@
              <string>Expand All</string>
             </property>
             <property name="text">
-             <string>E</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../icon.qrc">
+              <normaloff>:/icon/res/expand.png</normaloff>:/icon/res/expand.png</iconset>
             </property>
            </widget>
           </item>
@@ -122,7 +126,11 @@
              <string>Collapse All</string>
             </property>
             <property name="text">
-             <string>C</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../icon.qrc">
+              <normaloff>:/icon/res/collapse.png</normaloff>:/icon/res/collapse.png</iconset>
             </property>
            </widget>
           </item>
@@ -166,7 +174,7 @@
              <string>Delete</string>
             </property>
             <property name="text">
-             <string>R</string>
+             <string>-</string>
             </property>
            </widget>
           </item>
@@ -197,7 +205,11 @@
              <string>Group</string>
             </property>
             <property name="text">
-             <string>G</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../icon.qrc">
+              <normaloff>:/icon/res/group.png</normaloff>:/icon/res/group.png</iconset>
             </property>
            </widget>
           </item>
@@ -228,7 +240,11 @@
              <string>Move up</string>
             </property>
             <property name="text">
-             <string>U</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../icon.qrc">
+              <normaloff>:/icon/res/up.png</normaloff>:/icon/res/up.png</iconset>
             </property>
            </widget>
           </item>
@@ -259,7 +275,11 @@
              <string>Ungroup</string>
             </property>
             <property name="text">
-             <string>S</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../icon.qrc">
+              <normaloff>:/icon/res/ungroup.png</normaloff>:/icon/res/ungroup.png</iconset>
             </property>
            </widget>
           </item>
@@ -290,7 +310,11 @@
              <string>Move down</string>
             </property>
             <property name="text">
-             <string>D</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../icon.qrc">
+              <normaloff>:/icon/res/down.png</normaloff>:/icon/res/down.png</iconset>
             </property>
            </widget>
           </item>
@@ -309,7 +333,11 @@
              </size>
             </property>
             <property name="text">
-             <string>O</string>
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset resource="../icon.qrc">
+              <normaloff>:/icon/res/sorting_icon.png</normaloff>:/icon/res/sorting_icon.png</iconset>
             </property>
            </widget>
           </item>
@@ -377,6 +405,9 @@
        </property>
        <property name="textElideMode">
         <enum>Qt::ElideMiddle</enum>
+       </property>
+       <property name="gridStyle">
+        <enum>Qt::NoPen</enum>
        </property>
        <attribute name="horizontalHeaderDefaultSectionSize">
         <number>18</number>
@@ -577,7 +608,9 @@
   <tabstop>addBtn</tabstop>
   <tabstop>deleteBtn</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../icon.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>groupBtn</sender>

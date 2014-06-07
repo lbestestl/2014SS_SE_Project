@@ -4,6 +4,7 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <QStandardItem>
 
 
 namespace Ui {
@@ -25,6 +26,7 @@ protected:
 private:
     bool confirmSaveDsm();
     bool confirmSaveClm();
+    void search(QStandardItem* );
     Ui::mainWindow *ui;
 
 private slots:

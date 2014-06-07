@@ -19,6 +19,7 @@ public:
     void load(QString fileName);
     void appendEntity();
     void deleteEntity(QItemSelectionModel*);
+    int findVerticalHeaderItem(QString text);
 };
 
 

@@ -152,18 +152,129 @@ void mainWindow::saveAsClustering()
 }
 
 
+void mainWindow::search(QStandardItem* cur)
+{
+/*    if (cur == NULL)
+        return;
+    if (ui->treeView->isExpanded(cur->index())) {
+        int count = cur->rowCount();
+        for (int i = 0; i < count; i++)
+            search(cur->child(i));
+    } else {
+        int rowCount = GlobalInst::getInstance()->curDsm->rowCount();
+        int on = GlobalInst::getInstance()->oriDsm->findVerticalHeaderItem(cur->text());
+
+        if (on == -1) {
+            if (!cur->hasChildren())
+                return;
+            if (rowCount == 0) {
+                QStandardItem* item = new QStandardItem("0");
+                GlobalInst::getInstance()->curDsm->insertRow(0, item);
+            } else {
+            QList<QStandardItem*> row;
+            for (int i = 0; i < rowCount; i++) {
+                QString text = "0";
+                QStandardItem* item = new QStandardItem(text);
+                row.append(item);
+            }
+            GlobalInst::getInstance()->curDsm->insertRow(rowCount, row);
+            QList<QStandardItem*> col;
+            for (int i = 0; i < rowCount; i++) {
+                QString text = "0";
+                QStandardItem* item = new QStandardItem(text);
+                col.append(item);
+            }
+            QStandardItem* item = new QStandardItem("0");
+            col.append(item);
+            GlobalInst::getInstance()->curDsm->insertColumn(rowCount, col);
+            }
+        } else if (rowCount == 0) {
+            QStandardItem* item = new QStandardItem("0");
+            GlobalInst::getInstance()->curDsm->insertRow(0, item);
+        } else {
+            QList<QStandardItem*> row;
+            for (int i = 0; i < rowCount; i++) {
+                int cn = GlobalInst::getInstance()->oriDsm->findVerticalHeaderItem(GlobalInst::getInstance()->curDsm->verticalHeaderItem(i)->text());
+                QString text = GlobalInst::getInstance()->oriDsm->item(on, cn)->text();
+                QStandardItem* item = new QStandardItem(text);
+                row.append(item);
+            }
+            GlobalInst::getInstance()->curDsm->insertRow(rowCount, row);
+            QList<QStandardItem*> col;
+            for (int i = 0; i < rowCount; i++) {
+                int rn = GlobalInst::getInstance()->oriDsm->findVerticalHeaderItem(GlobalInst::getInstance()->curDsm->verticalHeaderItem(i)->text());
+                QString text = GlobalInst::getInstance()->oriDsm->item(rn, on)->text();
+                QStandardItem* item = new QStandardItem(text);
+                col.append(item);
+            }
+            QStandardItem* item = new QStandardItem("0");
+            col.append(item);
+            GlobalInst::getInstance()->curDsm->insertColumn(rowCount, col);
+        }
+
+        QStandardItem *item = new QStandardItem(cur->text());
+        GlobalInst::getInstance()->curDsm->setVerticalHeaderItem(rowCount, item);
+    }*/
+    if (cur == NULL)
+            return;
+    if (ui->treeView->isExpanded(cur->index())) {
+        int count = cur->rowCount();
+        for (int i = 0; i < count; i++)
+            search(cur->child(i));
+    } else {
+        int rowCount = GlobalInst::getInstance()->curDsm->rowCount();
+        int on = GlobalInst::getInstance()->oriDsm->findVerticalHeaderItem(cur->text());
+        QList<QStandardItem*> row;
+        for (int i = 0; i < rowCount; i++) {
+            int cn = GlobalInst::getInstance()->oriDsm->findVerticalHeaderItem(GlobalInst::getInstance()->curDsm->verticalHeaderItem(i)->text());
+            QString text = " ";
+            if ((on == -1) || (cn == -1)) {
+                text = "?";
+            } else if (GlobalInst::getInstance()->oriDsm->item(on, cn)->text() != "0") {
+                text = "X";
+            }
+            QStandardItem* item = new QStandardItem(text);
+            row.append(item);
+        }
+        GlobalInst::getInstance()->curDsm->insertRow(rowCount, row);
+        QList<QStandardItem*> col;
+        for (int i = 0; i < rowCount; i++) {
+            int rn = GlobalInst::getInstance()->oriDsm->findVerticalHeaderItem(GlobalInst::getInstance()->curDsm->verticalHeaderItem(i)->text());
+            QString text = " ";
+            if ((on == -1) || (rn == -1)) {
+                text = "?";
+            } else if (GlobalInst::getInstance()->oriDsm->item(rn, on)->text() != "0") {
+                text = "X";
+            }
+            QStandardItem* item = new QStandardItem(text);
+            col.append(item);
+        }
+        QStandardItem* item = new QStandardItem("·");
+        col.append(item);
+        GlobalInst::getInstance()->curDsm->insertColumn(rowCount, col);
+
+        QStandardItem *hitem = new QStandardItem(cur->text());
+        GlobalInst::getInstance()->curDsm->setVerticalHeaderItem(rowCount, hitem);
+    }
+}
+
+
+
 void mainWindow::redraw()
 {
+    if (!GlobalInst::getInstance()->dsmExist)
+        return;
+
     GlobalInst::getInstance()->curDsm->deleteAll();
     delete GlobalInst::getInstance()->curDsm;
+    GlobalInst::getInstance()->curDsm = new DsmModel();
+    ui->tableView->setModel(GlobalInst::getInstance()->curDsm);
+
     if (!GlobalInst::getInstance()->clm->invisibleRootItem()->hasChildren())
         return;
-    QStandardItem* cur = GlobalInst::getInstance()->clm->invisibleRootItem()->child(0);
-    if (ui->treeView->isExpanded(cur->index()))
-        qDebug() << "Yes";
-    else
-        qDebug() << "NO";
 
+    QStandardItem* cur = GlobalInst::getInstance()->clm->invisibleRootItem()->child(0);
+    search(cur);
 }
 
 
@@ -313,10 +424,8 @@ bool mainWindow::confirmSaveClm()
 {
     if (GlobalInst::getInstance()->clmModified == true) {
         QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, tr("Save Changes?"), tr("cluster file is changed."), QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
-        if (reply == QMessageBox::Cancel) {
-            return false;
-        } else if (reply == QMessageBox::Yes) {
+        reply = QMessageBox::question(this, tr("Save Changes?"), tr("cluster file is changed."), QMessageBox::No | QMessageBox::Yes);
+        if (reply == QMessageBox::Yes) {
             saveClustering();
         } else {
             ;
